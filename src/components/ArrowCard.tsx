@@ -20,8 +20,9 @@ export default function ArrowCard({ entry, pill }: Props) {
             </div>
           }
           <div class="text-sm uppercase">
-            {entry.collection === "projects" && entry.data.placeholder ? "占位项目 / SAMPLE" : formatDate(entry.data.date)}
+            {entry.collection === "projects" ? (entry.data.placeholder ? "占位项目 / SAMPLE" : entry.data.period ?? formatDate(entry.data.date)) : formatDate(entry.data.date)}
           </div>
+          {entry.collection === "projects" && entry.data.eyebrow && <span class="text-xs tracking-widest opacity-60">{entry.data.eyebrow}</span>}
         </div>
         <div class="font-semibold mt-3 text-black dark:text-white line-clamp-2">
           {entry.data.title}

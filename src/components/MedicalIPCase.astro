@@ -1,0 +1,182 @@
+---
+import Container from "@components/Container.astro"
+import Comparison from "@components/MedicalComparison.astro"
+import { medicalIP as data, medicalVideos, formatNumber as n, growthPercent } from "../data/medical-ip"
+import "../styles/medical-ip.css"
+const [aug, sep] = data.months
+const viewsGrowth = growthPercent(aug.views, sep.views)
+const likesGrowth = growthPercent(aug.likes, sep.likes)
+const savesGrowth = growthPercent(aug.saves, sep.saves)
+const medianRatio = (sep.medianViews / aug.medianViews).toFixed(2)
+const topShare = (data.augustTopVideoViews / aug.views * 100).toFixed(0)
+const engagementDifference = (sep.engagementRate - aug.engagementRate).toFixed(2)
+const groupedMax = Math.ceil(Math.max(...data.months.flatMap(month => [month.likes, month.saves])) / 1000) * 1000
+const metrics = [
+  { value: (data.total.views / 10000).toFixed(2), suffix: "万+", name: "累计作品播放", note: `精确值 ${n(data.total.views)} 次` },
+  { value: n(data.total.videos), suffix: "条", name: "统计作品", note: "按作品发布时间筛选" },
+  { value: n(data.total.interactions), suffix: "", name: "累计互动", note: "点赞 + 评论 + 分享 + 收藏" },
+  { value: `+${n(data.total.attributedFollowers)}`, suffix: "", name: "视频归因粉丝增量", note: "作品归因增量合计" },
+]
+const monthlyRows = [
+  { label: "发布作品（条）", values: data.months.map(m => n(m.videos)) },
+  { label: "累计播放（次）", values: data.months.map(m => n(m.views)) },
+  { label: "累计点赞（次）", values: data.months.map(m => n(m.likes)) },
+  { label: "累计收藏（次）", values: data.months.map(m => n(m.saves)) },
+  { label: "累计分享（次）", values: data.months.map(m => n(m.shares)) },
+  { label: "累计评论（次）", values: data.months.map(m => n(m.comments)) },
+  { label: "累计互动（次）", values: data.months.map(m => n(m.interactions)) },
+  { label: "视频归因涨粉（人）", values: data.months.map(m => n(m.attributedFollowers)) },
+  { label: "综合互动率", values: data.months.map(m => `${m.engagementRate.toFixed(2)}%`) },
+  { label: "播放中位数（次）", values: data.months.map(m => n(m.medianViews)) },
+  { label: "播放破万作品（条）", values: data.months.map(m => n(m.above10k)) },
+]
+const insights = [
+  { title: "更多作品获得较高播放", text: `9月发布的 ${sep.videos} 条作品中，${sep.above10k} 条累计播放破万，较8月的 ${aug.above10k} 条明显增加。` },
+  { title: "内容收藏表现提升", text: `9月作品累计收藏达到 ${n(sep.saves)} 次，较8月提升 ${savesGrowth}%，提示部分内容可能具备参考与保存价值。` },
+  { title: "互动表现改善", text: `综合互动率从 ${aug.engagementRate.toFixed(2)}% 提高至 ${sep.engagementRate.toFixed(2)}%，两组作品的互动程度有所不同。` },
+  { title: "观察更广泛的作品表现", text: `8月最高播放作品贡献约 ${topShare}% 的当组累计播放；9月播放中位数升至 ${n(sep.medianViews)}，约为8月的 ${medianRatio} 倍。更多作品获得较好表现。` },
+]
+---
+
+<div class="medical-case">
+  <Container size="lg">
+    <!-- 01 / Overview -->
+    <section id="overview" class="case-hero case-reveal" aria-labelledby="case-title">
+      <a class="case-back" href="/projects">← 返回全部作品</a>
+      <div class="case-hero-meta"><span class="case-label">{data.english}</span><span class="case-label">{data.period} / {data.platform}</span></div>
+      <p class="case-section-index">01 / PROJECT OVERVIEW</p>
+      <h1 id="case-title">让专业医学知识，<br/><span>被更多人看见。</span></h1>
+      <p class="case-hero-english">MAKING MEDICAL KNOWLEDGE<br/>MORE ACCESSIBLE</p>
+      <div class="case-introduction">
+        <div><h2>{data.subtitle}</h2><p>{data.description}</p></div>
+        <div class="case-hero-mark" aria-hidden="true"><span>CONTENT</span><div class="case-orbit">↗</div><span>KNOWLEDGE → CONNECTION</span></div>
+      </div>
+      <dl class="case-project-meta">
+        <div><dt>项目名称</dt><dd>{data.title}</dd></div>
+        <div><dt>项目账号</dt><dd>{data.account}<span>妇科医疗科普账号</span></dd></div>
+        <div><dt>内容领域</dt><dd>{data.field}</dd></div>
+      </dl>
+      <div class="case-role-block">
+        <p class="case-label">MY CONTRIBUTION / 实际参与</p>
+        <ul>{data.roles.map(role => <li>{role}</li>)}</ul>
+        <p class="case-muted">本案例另基于提供的真实作品统计，补充完成数据分析、内容矩阵与运营优化建议；不将建议视为已实施成果。</p>
+      </div>
+      <nav class="case-section-nav" aria-label="案例内容导航">
+        <a href="#performance">核心成果 ↘</a><a href="#analysis">数据分析 ↘</a><a href="#strategy">内容策略 ↘</a><a href="#works">代表作品 ↘</a><a href="#insights">运营复盘 ↘</a>
+      </nav>
+    </section>
+
+    <!-- 02 / Performance -->
+    <section id="performance" class="case-section case-reveal" aria-labelledby="performance-title">
+      <div class="case-section-heading"><p class="case-section-index">02 / PERFORMANCE</p><h2 id="performance-title">先看规模，再看内容。</h2><p>两个月发布的作品，留下这些可观察的表现。</p></div>
+      <div class="case-metrics">
+        {metrics.map(metric => (
+          <div class="case-metric"><p class="case-metric-value">{metric.value}<span>{metric.suffix}</span></p><h3>{metric.name}</h3><p>{metric.note}</p></div>
+        ))}
+      </div>
+      <dl class="case-secondary-metrics">
+        <div><dt>点赞</dt><dd>{n(data.total.likes)}</dd></div><div><dt>收藏</dt><dd>{n(data.total.saves)}</dd></div><div><dt>分享</dt><dd>{n(data.total.shares)}</dd></div><div><dt>评论</dt><dd>{n(data.total.comments)}</dd></div><div><dt>综合互动率</dt><dd>{data.total.engagementRate.toFixed(2)}%</dd></div>
+      </dl>
+      <aside class="case-methodology" aria-label="统计口径">
+        <p class="case-label">READ THE NUMBERS / 统计口径</p>
+        <p>仅统计 <strong>{data.scope}</strong>，以上是这些作品在数据导出时的累计表现。8月与9月按作品发布时间分组，<strong>不是账号在两个自然月分别新增的播放量</strong>。</p>
+        <p>累计互动 = 点赞 + 评论 + 分享 + 收藏；综合互动率 = 累计互动 ÷ 累计播放 × 100%。视频归因粉丝增量为各作品归因增量合计，不代表账号净增粉丝或粉丝总量。</p>
+        <p class="case-muted">数据来源：本人提供的作品统计；导出时点未提供。未使用曝光量、完播率、点击率或转化率等未提供指标。</p>
+      </aside>
+    </section>
+
+    <!-- 03 / Analysis -->
+    <section id="analysis" class="case-section case-reveal" aria-labelledby="analysis-title">
+      <div class="case-section-heading"><p class="case-section-index">03 / DATA ANALYSIS</p><h2 id="analysis-title">从单条高播放，<br/>到更稳定的内容表现。</h2><p>发布数量 {aug.videos} → {sep.videos} 条，9月发布作品的累计播放仍较8月提升 {viewsGrowth}%。</p></div>
+      <div class="case-charts-grid">
+        <Comparison id="views-chart" title="累计作品播放量" unit="累计播放 / 次" step={50000} rows={data.months.map(m => ({ label: m.label, value: m.views }))} note={`9月发布作品累计播放较8月 +${viewsGrowth}%；不能解释为账号自然月流量增长。`} />
+        <figure class="case-chart" aria-labelledby="interaction-chart">
+          <figcaption><span class="case-label">累计次数 / 分组柱状图</span><h3 id="interaction-chart">点赞与收藏表现</h3></figcaption>
+          <div class="case-legend"><span><i class="case-legend-likes"></i>点赞</span><span><i class="case-legend-saves"></i>收藏</span></div>
+          <div class="case-pair-rows">
+            {data.months.map(month => (
+              <div class="case-pair-month"><span>{month.label}</span><div>
+                {[{ name: "点赞", value: month.likes }, { name: "收藏", value: month.saves }].map((series, index) => (
+                  <div class="case-series-row"><span class="case-sr-only">{series.name}</span><div class="case-chart-track" aria-hidden="true"><div class:list={["case-chart-fill", { "case-chart-fill-accent": index === 1 }]} style={`width: ${series.value / groupedMax * 100}%`}></div></div><strong>{n(series.value)}</strong></div>
+                ))}
+              </div></div>
+            ))}
+          </div>
+          <div class="case-chart-axis"><span>0</span><span>{n(groupedMax / 2)}</span><span>{n(groupedMax)}</span></div>
+          <p class="case-chart-note">点赞 +{likesGrowth}% · 收藏 +{savesGrowth}%</p>
+        </figure>
+        <Comparison id="rate-chart" title="综合互动率" unit="互动量 ÷ 播放量 / %" step={1} percentage rows={data.months.map(m => ({ label: m.label, value: m.engagementRate }))} note={`两组作品相差 ${engagementDifference} 个百分点，体现互动表现的变化。`} />
+        <Comparison id="distribution-chart" title="累计播放破万的作品" unit="作品数量 / 条" step={2} rows={data.months.map(m => ({ label: m.label, value: m.above10k }))} note={`8月 ${aug.above10k} / ${aug.videos} 条，9月 ${sep.above10k} / ${sep.videos} 条。按导出时累计播放统计。`} />
+      </div>
+      <div class="case-median"><div><span class="case-label">MEDIAN VIEWS / 单条播放中位数</span><p>{n(aug.medianViews)} <span>→</span> {n(sep.medianViews)}</p></div><div class="case-median-ratio">{medianRatio}<span>倍</span></div></div>
+      <div class="case-insights-grid">{insights.map((insight, index) => <div><span class="case-label">INSIGHT 0{index + 1}</span><h3>{insight.title}</h3><p>{insight.text}</p></div>)}</div>
+      <p class="case-analysis-limit">这些结果支持描述作品表现的变化，不能单独证明变化原因。不同作品的累计观察时长可能不同；目前未提供按相同发布时长对齐的数据，也未提供内容分类的精确占比。</p>
+      <details class="case-monthly-table"><summary>查看完整月度数据 <span>8月 / 9月 ＋</span></summary><table><caption>按作品发布时间分组的导出时累计数据</caption><thead><tr><th scope="col">指标</th>{data.months.map(m => <th scope="col">{m.label}</th>)}</tr></thead><tbody>{monthlyRows.map(row => <tr><th scope="row">{row.label}</th>{row.values.map(value => <td>{value}</td>)}</tr>)}</tbody></table></details>
+    </section>
+
+    <!-- 04 / Strategy -->
+    <section id="strategy" class="case-section case-reveal" aria-labelledby="strategy-title">
+      <div class="case-section-heading"><p class="case-section-index">04 / CONTENT STRATEGY</p><h2 id="strategy-title">专业可信，也贴近日常。</h2><p>基于项目与数据补充整理的账号定位及内容矩阵。</p></div>
+      <div class="case-positioning"><p>{data.positioning}</p><div class="case-value-line"><span>专业可信</span><span>通俗易懂</span><span>贴近日常生活</span></div></div>
+      <div class="case-audience"><p class="case-label">USER NEEDS / 定性需求分析</p><ul>{data.audienceNeeds.map(need => <li>{need}</li>)}</ul><p class="case-muted">这是内容策划视角的定性分析，不是已验证的后台用户画像。</p></div>
+      <div class="case-matrix">{data.matrix.map(item => <div><div class="case-matrix-top"><span class="case-label">{item.number} / {item.english}</span><span class="case-matrix-symbol" aria-hidden="true">{item.symbol}</span></div><h3>{item.title}</h3><p>{item.description}</p></div>)}</div>
+      <div class="case-workflow"><p class="case-label">FROM IDEA TO REVIEW / 内容生产流程</p><ol>{data.workflow.map((step, index) => <li><span>0{index + 1}</span><p>{step}</p>{index < data.workflow.length - 1 && <i aria-hidden="true">→</i>}</li>)}</ol></div>
+    </section>
+
+    <!-- 05 / Selected works -->
+    <section id="works" class="case-section case-reveal" aria-labelledby="works-title">
+      <div class="case-section-heading"><p class="case-section-index">05 / SELECTED WORKS</p><h2 id="works-title">四条作品，四种内容价值。</h2><p>真实标题与真实数据。封面为排版预留区域，尚未添加原视频素材。</p></div>
+      <div class="case-works-grid">
+        {medicalVideos.map(video => (
+          <div class="case-work-card">
+            <div class="case-video-cover">
+              {video.cover ? <img src={video.cover} alt={`${video.title}视频封面`} width="360" height="640" loading="lazy" /> : <div class="case-cover-layout"><span class="case-label">CASE {video.id}</span><div class="case-cover-title">{video.title}</div><div class="case-cover-bottom"><span aria-hidden="true">↗</span><small>封面待补充<br/>非视频截图</small></div></div>}
+            </div>
+            <div class="case-work-copy"><span class="case-work-tag">{video.category}</span><h3>{video.title}</h3><p class="case-work-date">发布于 {video.published.replaceAll("-", ".")}</p>
+              <dl class="case-video-stats"><div><dt>播放</dt><dd>{n(video.views)}</dd></div><div><dt>点赞</dt><dd>{n(video.likes)}</dd></div>{video.saves !== undefined && <div><dt>收藏</dt><dd>{n(video.saves)}</dd></div>}{video.shares !== undefined && <div><dt>分享</dt><dd>{n(video.shares)}</dd></div>}{video.attributedFollowers !== undefined && <div><dt>视频归因涨粉</dt><dd>+{n(video.attributedFollowers)}</dd></div>}{video.engagementRate !== undefined && <div><dt>综合互动率</dt><dd>{video.engagementRate.toFixed(2)}%</dd></div>}</dl>
+              <p class="case-video-analysis">{video.analysis}</p>
+              {video.videoUrl ? <a class="case-video-link" href={video.videoUrl} target="_blank" rel="noopener noreferrer">查看原视频 ↗</a> : <span class="case-video-pending">作品链接待补充</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="case-muted case-work-note">代表作品数据同样为导出时的累计表现。8.60% 为本人提供的单条综合互动率；该作品评论数未列出，不从已列出的三项互动重算。标题保留原发布表达用于复盘，其中夸张表述不作为医学效果结论。</p>
+    </section>
+
+    <!-- 06 / Reflection -->
+    <section id="insights" class="case-section case-reveal" aria-labelledby="insights-title">
+      <div class="case-section-heading"><p class="case-section-index">06 / INSIGHTS & OPTIMIZATION</p><h2 id="insights-title">数据之外，<br/>重新理解内容。</h2></div>
+      <div class="case-findings">{data.findings.map((finding, index) => <div><span class="case-finding-index">0{index + 1}</span><div><h3>{finding.title}</h3><p>{finding.text}</p></div></div>)}</div>
+      <div class="case-plan-heading"><h3>下一阶段运营优化方案</h3><span class="case-status">复盘建议 · 尚未实施验证</span></div>
+      <div class="case-recommendations">{data.recommendations.map(item => <div><span class="case-label">STRATEGY {item.id}</span><h4>{item.title}</h4><p>{item.text}</p></div>)}</div>
+    </section>
+
+    <!-- 07 / Conclusion -->
+    <section id="conclusion" class="case-section case-conclusion case-reveal" aria-labelledby="conclusion-title">
+      <p class="case-section-index">07 / CONCLUSION</p><h2 id="conclusion-title">内容的价值，<br/>不止于一次被看见。</h2>
+      {data.conclusion.map(paragraph => <p>{paragraph}</p>)}
+      <a class="case-end-link" href="/projects">返回全部作品 <span aria-hidden="true">↗</span></a>
+      <div class="case-end-meta"><span>HE YUXIANG / CONTENT PORTFOLIO</span><span>{data.period}</span></div>
+    </section>
+  </Container>
+</div>
+
+<script>
+  // 静态内容默认可见；仅在允许动态效果时增强。无动画库、无数据延迟渲染。
+  const root = document.querySelector<HTMLElement>(".medical-case")
+  if (root && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove("case-pending")
+          entry.target.classList.add("case-entered")
+          observer.unobserve(entry.target)
+        }
+      })
+    }, { threshold: 0.04 })
+    root.querySelectorAll<HTMLElement>(".case-reveal").forEach(section => {
+      if (section.getBoundingClientRect().top > window.innerHeight) section.classList.add("case-pending")
+      observer.observe(section)
+    })
+  }
+</script>

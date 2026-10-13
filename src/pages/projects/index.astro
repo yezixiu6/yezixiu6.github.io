@@ -9,7 +9,7 @@ import { PROJECTS } from "@consts";
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .sort((a, b) => Number(a.data.placeholder) - Number(b.data.placeholder) || b.data.date.getTime() - a.data.date.getTime());
 
 const tags = [
   ...new Set(projects.flatMap((project) => project.data.tags)),
@@ -28,7 +28,7 @@ const estimated_initial_size =
       <div class="mt-1">
         {PROJECTS.DESCRIPTION}
       </div>
-      <p class="mt-3 text-sm opacity-60">以下四个项目均为占位示例，真实作品、时间与成果待补充。</p>
+      <p class="mt-3 text-sm opacity-60">医疗健康IP为真实项目案例；其他标注占位的项目，内容与素材待补充。</p>
     </div>
   </TopLayout>
   <BottomLayout>

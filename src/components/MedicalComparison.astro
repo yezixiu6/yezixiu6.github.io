@@ -1,0 +1,33 @@
+---
+import { formatNumber } from "../data/medical-ip"
+interface Props {
+  id: string
+  title: string
+  unit: string
+  rows: { label: string; value: number }[]
+  step: number
+  percentage?: boolean
+  note: string
+}
+const { id, title, unit, rows, step, percentage = false, note } = Astro.props
+const max = Math.ceil(Math.max(...rows.map(row => row.value)) / step) * step
+const valueLabel = (value: number) => percentage ? `${value.toFixed(2)}%` : formatNumber(value)
+const axisLabel = (value: number) => percentage ? `${formatNumber(value)}%` : value >= 10000 ? `${formatNumber(value / 10000)}万` : formatNumber(value)
+---
+<figure class="case-chart" aria-labelledby={id}>
+  <figcaption>
+    <span class="case-label">{unit}</span>
+    <h3 id={id}>{title}</h3>
+  </figcaption>
+  <div class="case-chart-rows">
+    {rows.map((row, index) => (
+      <div class="case-chart-row">
+        <span>{row.label}</span>
+        <div class="case-chart-track" aria-hidden="true"><div class:list={["case-chart-fill", { "case-chart-fill-accent": index === 1 }]} style={`width: ${row.value / max * 100}%`}></div></div>
+        <strong>{valueLabel(row.value)}</strong>
+      </div>
+    ))}
+  </div>
+  <div class="case-chart-axis" aria-label={`横轴从 0 到 ${axisLabel(max)}，单位 ${unit}`}><span>0</span><span>{axisLabel(max / 2)}</span><span>{axisLabel(max)}</span></div>
+  <p class="case-chart-note">{note}</p>
+</figure>

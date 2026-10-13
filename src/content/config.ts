@@ -37,6 +37,9 @@ const projects = defineCollection({
     coverAlt: z.string().optional(),
     videoUrl: z.string().optional(),
     videoCaption: z.string().optional(),
+    period: z.string().optional(),
+    eyebrow: z.string().optional(),
+    caseStudy: z.literal("medical-ip").optional(),
   }),
 })
 

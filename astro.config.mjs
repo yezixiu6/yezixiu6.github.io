@@ -6,6 +6,6 @@ import solidJs from "@astrojs/solid-js"
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL || "http://localhost:4321", // 本地预览；部署前填写真实域名。
+  site: process.env.SITE_URL || "https://yezixiu6.github.io", // SITE_URL 可覆盖域名；本地仍通过 localhost 预览。
   integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false })],
 })

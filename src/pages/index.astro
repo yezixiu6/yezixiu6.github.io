@@ -57,7 +57,7 @@ const projects = (await getCollection("projects"))
           <p class='animated text-sm md:text-base lg:text-lg opacity-75'>
             {PROFILE.INTRO}
           </p>
-          <p class="animated text-xs mt-3 opacity-50">姓名占位 · 个人资料与真实作品待补充</p>
+          <p class="animated text-xs mt-3 opacity-60 leading-relaxed">求职方向：{PROFILE.JOB_DIRECTIONS.join(" / ")}</p>
           <div id="ctaButtons" class='animated flex flex-wrap gap-4 justify-center mt-5'>
             <a href='/projects' class='py-2 px-4 rounded truncate text-xs md:text-sm lg:text-base bg-black dark:bg-white text-white dark:text-black hover:opacity-75 blend'>
               浏览作品
@@ -78,6 +78,7 @@ const projects = (await getCollection("projects"))
         <article class="pb-0">
           <h2>让想法，成为作品。</h2>
           <p>{PROFILE.BIO}</p>
+          <p>自 2026 年 7 月起，在医疗健康内容 MCN 担任实习编导，参与医生短视频账号的内容策划与制作。</p>
           <p>这个作品集围绕内容策划、数字媒体与 AI 创作展开，关注作品本身，也关注它背后的思考与过程。</p>
         </article>
         <a href="/work" class="inline-block mt-5 text-sm underline underline-offset-4 hover:text-black dark:hover:text-white blend">更多关于我 →</a>
@@ -108,7 +109,7 @@ const projects = (await getCollection("projects"))
       </section>
       <section class="animate">
         <h2 class="font-semibold text-black dark:text-white">保持联系 <span class="font-normal text-xs opacity-60">/ LET'S CONNECT</span></h2>
-        <p class="mt-3">邮箱及社交平台链接待补充。</p>
+        <p class="mt-3">欢迎通过邮箱联系我，交流内容创作与工作机会。</p>
         <ContactLinks />
       </section>
     </div>

@@ -21,6 +21,21 @@ const next = items[(index + 1) % items.length]
 
 <div>
   <article>
+    {entry.collection === "projects" && (
+      <>
+        {entry.data.placeholder && <p class="text-sm border-l-2 border-black/25 dark:border-white/40 pl-4">展示占位：此页用于演示作品详情结构，不代表真实项目、经历或成果。封面为示意图。</p>}
+        {entry.data.cover && <figure><img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="960" height="540" class="rounded-lg w-full" /><figcaption>{entry.data.placeholder ? "占位封面 · 真实作品画面待替换" : entry.data.coverAlt}</figcaption></figure>}
+        {entry.data.videoUrl ? (
+          <figure>
+            <video controls playsinline preload="metadata" poster={entry.data.cover} aria-label={`${entry.data.title}视频`}>
+              <source src={entry.data.videoUrl} />
+              当前浏览器无法播放视频。<a href={entry.data.videoUrl}>打开视频文件</a>
+            </video>
+            <figcaption>{entry.data.videoCaption ?? "项目视频"}</figcaption>
+          </figure>
+        ) : <div class="not-prose my-8 border border-dashed border-black/20 dark:border-white/25 rounded-lg p-6 text-sm"><p class="font-semibold">视频展示</p><p class="mt-2 opacity-60">真实视频待补充。</p></div>}
+      </>
+    )}
     <Content/>
   </article>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -28,7 +43,7 @@ const next = items[(index + 1) % items.length]
       <div class="order-2 w-full h-full group-hover:text-black group-hover:dark:text-white blend">
         <div class="flex flex-wrap gap-2">
           <div class="text-sm uppercase">
-            Prev
+            上一篇
           </div>
         </div>
         <div class="font-semibold mt-3 text-black dark:text-white">
@@ -43,7 +58,7 @@ const next = items[(index + 1) % items.length]
     <a href={`/${next.collection}/${next.slug}`} class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out">
       <div class="w-full h-full text-right group-hover:text-black group-hover:dark:text-white blend">
         <div class="text-sm uppercase">
-          Next
+          下一篇
         </div>
         <div class="font-semibold mt-3 text-black dark:text-white">
           {next.data.title}

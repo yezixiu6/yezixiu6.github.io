@@ -1,59 +1,43 @@
 ---
-import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
-import { WORK } from "@consts"
-
-const collection = await getCollection("work")
-
-collection.sort((a, b) => new Date(b.data.dateStart).getTime() - new Date(a.data.dateStart).getTime())
-
-const work = await Promise.all(
-  collection.map(async (item) => {
-    const { Content } = await item.render()
-    return { ...item, Content }
-  })
-)
-
-function formatWorkDate(input: Date | string) {
-  if (typeof input === "string") return input
-
-  const month = input.toLocaleDateString("en-US", {
-    month: "short",
-  })
-
-  const year = new Date(input).getFullYear()
-  return `${month} ${year}`
-}
+import { WORK, PROFILE } from "@consts"
 ---
-
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
   <TopLayout>
-    <div class="animate page-heading">
-      {WORK.TITLE}
+    <div class="animate">
+      <p class="text-xs tracking-widest opacity-60">ABOUT ME</p>
+      <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">关于我</h1>
+      <p class="mt-3">{PROFILE.NAME} <span class="text-sm opacity-60">· 姓名占位</span></p>
     </div>
   </TopLayout>
   <BottomLayout>
-    <ul>
-      { 
-        work.map((entry) => (
-          <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-            <div class="text-sm uppercase mb-4">
-              {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
-            </div>
-            <div class="text-black dark:text-white font-semibold">
-              {entry.data.company}
-            </div>
-            <div class="text-sm font-semibold">
-              {entry.data.role}
-            </div>
-            <article class="prose dark:prose-invert">
-              <entry.Content />
-            </article>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="space-y-12">
+      <section class="animate">
+        <h2 class="font-semibold text-black dark:text-white">个人简介</h2>
+        <p class="mt-3 leading-relaxed">{PROFILE.BIO}</p>
+      </section>
+      <section class="animate border-t border-black/10 dark:border-white/20 pt-8">
+        <h2 class="font-semibold text-black dark:text-white">专业背景</h2>
+        <dl class="mt-4 grid grid-cols-[5rem_minmax(0,1fr)] gap-3">
+          <dt>教育背景</dt><dd class="opacity-60">待补充学校、专业与时间</dd>
+          <dt>相关经历</dt><dd class="opacity-60">待补充真实的学习、实习或工作经历</dd>
+          <dt>个人角色</dt><dd class="opacity-60">待补充创作方向与职责</dd>
+        </dl>
+      </section>
+      <section class="animate border-t border-black/10 dark:border-white/20 pt-8">
+        <h2 class="font-semibold text-black dark:text-white">技能与工具</h2>
+        <p class="text-sm mt-3 opacity-60">以下是待填写的展示分类，不代表已掌握的技能。请按真实情况补充工具、熟练程度与案例。</p>
+        <ul class="mt-5 space-y-4">
+          {PROFILE.DIRECTIONS.map(item => (
+            <li><p class="font-semibold text-black dark:text-white">{item.name}</p><p class="text-sm mt-1">技能、工具与对应作品待补充。</p></li>
+          ))}
+        </ul>
+      </section>
+      <section class="animate pb-8">
+        <a href="/projects" class="underline underline-offset-4 hover:text-black dark:hover:text-white blend">浏览作品集 →</a>
+      </section>
+    </div>
   </BottomLayout>
 </PageLayout>

@@ -9,15 +9,18 @@ type Props = {
 export default function ArrowCard({ entry, pill }: Props) {
   return (
     <a href={`/${entry.collection}/${entry.slug}`} class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out">
-      <div class="w-full group-hover:text-black group-hover:dark:text-white blend">
+      <div class="w-full min-w-0 group-hover:text-black group-hover:dark:text-white blend">
+        {entry.collection === "projects" && entry.data.cover && (
+          <img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="960" height="540" loading="lazy" class="w-full aspect-video object-cover rounded mb-4 border border-black/10 dark:border-white/10" />
+        )}
         <div class="flex flex-wrap items-center gap-2">
           {pill &&
             <div class="text-sm capitalize px-2 py-0.5 rounded-full border border-black/15 dark:border-white/25">
-              {entry.collection === "blog" ? "post" : "project"}
+              {entry.collection === "blog" ? "笔记" : "作品"}
             </div>
           }
           <div class="text-sm uppercase">
-            {formatDate(entry.data.date)}
+            {entry.collection === "projects" && entry.data.placeholder ? "占位项目 / SAMPLE" : formatDate(entry.data.date)}
           </div>
         </div>
         <div class="font-semibold mt-3 text-black dark:text-white line-clamp-2">

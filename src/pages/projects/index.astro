@@ -5,7 +5,7 @@ import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
 import SearchCollection from "@components/SearchCollection";
 import { PROJECTS } from "@consts";
-import type { CollectionEntry } from "astro:content";
+
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
@@ -28,6 +28,7 @@ const estimated_initial_size =
       <div class="mt-1">
         {PROJECTS.DESCRIPTION}
       </div>
+      <p class="mt-3 text-sm opacity-60">以下四个项目均为占位示例，真实作品、时间与成果待补充。</p>
     </div>
   </TopLayout>
   <BottomLayout>

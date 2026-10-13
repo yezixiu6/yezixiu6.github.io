@@ -1,0 +1,17 @@
+---
+import { SOCIALS } from "@consts"
+---
+<dl class="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-4 gap-y-3 mt-6 text-sm sm:text-base">
+  {SOCIALS.map(social => (
+    <>
+      <dt>{social.NAME}</dt>
+      <dd class="min-w-0 break-words">
+        {social.HREF ? (
+          <a href={social.HREF} target={social.HREF.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer" class="underline underline-offset-4 decoration-black/25 dark:decoration-white/50 hover:text-black dark:hover:text-white blend">{social.TEXT}</a>
+        ) : (
+          <span class="opacity-60">{social.TEXT} · 占位</span>
+        )}
+      </dd>
+    </>
+  ))}
+</dl>

@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions"
+// 保留原版页面加载方式。
 
 interface Props {
   title: string
@@ -9,7 +9,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
-const { title, description, image = "/open-graph.jpg" } = Astro.props
+const { title, description, image = "/portfolio-preview.svg" } = Astro.props
 ---
 
 <!-- Global Metadata -->

@@ -2,7 +2,7 @@
 title: "Astro Sphere: Adding a new post or project."
 summary: "Adding a new article (blog post or project) is pretty easy."
 date: "Mar 14 2024"
-draft: false
+draft: true
 tags:
 - Tutorial
 - Astro
@@ -44,7 +44,7 @@ Example blog post frontmatter
 title: "Astro Sphere: Adding a new post or project."
 summary: "Adding a new article (blog post or project) is pretty easy."
 date: "Mar 18 2024"
-draft: false
+draft: true
 tags:
 - Tutorial
 - Astro
@@ -71,7 +71,7 @@ Example project frontmatter
 title: "Astro Sphere"
 summary: "Astro Sphere, a portfolio and blog for designers and developers."
 date: "Mar 18 2024"
-draft: false
+draft: true
 tags:
 - Astro
 - Typescript

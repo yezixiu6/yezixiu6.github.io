@@ -49,3 +49,12 @@
 - `pnpm run build` 成功：39 个文件检查，0 错误、0 警告、0 提示；12 个静态页面的 HTTP 状态和本地资源链接检查通过。
 - 浏览器从作品列表卡片进入详情；视频 duration 157.013333、readyState 4、无媒体错误。实际播放超过 40 秒且进度推进，再通过键盘暂停成功。
 - 实际查看 1280px 桌面与 390px 手机排版；320px、390px 页面无横向溢出，视频宽度随容器缩放。未部署或远程推送。
+# GitHub Pages 部署检查（2026-10-13）
+
+- 公开仓库：`https://github.com/yezixiu6/yezixiu6.github.io`；正式网址：`https://yezixiu6.github.io/`。
+- 默认分支与自动部署分支：`portfolio`；原版标签 `original-astro-sphere` 已上传。
+- Astro 官方 Action 在线构建成功，Pages 部署成功；首次运行在增加 portfolio 环境允许规则后重试通过。
+- `work/check_live_portfolio.py` 实测 12 个页面 HTTP 200，55 个内部链接及资源 HTTP 200，3 个 XML 文件解析通过且使用正式域名。
+- AI PV 和 3 条短视频的线上 MP4 返回 HTTP 206、正确的 Content-Range 与 video/mp4 类型；前 1024 字节与本地成片一致。
+- 浏览器实际读取线上首页内容，中文个人资料、导航及 3 个精选作品链接均正确。
+

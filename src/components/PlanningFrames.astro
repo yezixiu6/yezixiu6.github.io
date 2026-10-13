@@ -1,0 +1,15 @@
+---
+import { timestamp, type PlanningFrame } from "../data/short-video-planning"
+interface Props { frames: PlanningFrame[]; variant: "sequence" | "storyboard" | "actions" }
+const { frames, variant } = Astro.props
+---
+<div class:list={["planning-frames", `planning-frames-${variant}`]}>
+  {frames.map((frame, index) => <figure class="planning-frame">
+    <div class="planning-frame-image"><img src={frame.image} alt={`${frame.title}，成片 ${timestamp(frame.second)} 的实际画面`} width="540" height="960" loading="lazy" decoding="async" /></div>
+    <figcaption>
+      <div class="planning-frame-meta"><span>FRAME {String(index + 1).padStart(2, "0")}</span><time>{timestamp(frame.second)}</time></div>
+      <h4>{frame.title}</h4><p>{frame.description}</p>
+      {frame.scriptName && frame.scriptName !== frame.title && <small>原脚本用词：{frame.scriptName}</small>}
+    </figcaption>
+  </figure>)}
+</div>

@@ -1,0 +1,45 @@
+---
+import type { PlanningCase } from "../data/short-video-planning"
+import { timestamp } from "../data/short-video-planning"
+interface Props { item: PlanningCase }
+const { item } = Astro.props
+---
+<figure class="planning-player" data-planning-player>
+  <div class="planning-video-shell">
+    <video controls playsinline preload="metadata" poster={item.poster} width="1080" height="1920" aria-label={`${item.title}完整视频`} aria-describedby={`video-caption-${item.slug}`}>
+      <source src={item.video} type="video/mp4" />
+      当前浏览器无法播放视频，请通过下方链接打开原文件。
+    </video>
+    <span class="planning-video-status" data-media-status role="status" aria-live="polite" hidden>视频加载中…</span>
+  </div>
+  <figcaption id={`video-caption-${item.slug}`}><span>真实成片 / {timestamp(item.duration)} / 9:16</span><a href={item.video} target="_blank" rel="noopener noreferrer">打开视频文件 ↗</a></figcaption>
+</figure>
+
+<script>
+  // 保留浏览器原生播放控制；交互只作用于本案例的三个视频。
+  const players = Array.from(document.querySelectorAll<HTMLElement>("[data-planning-player]"))
+  players.forEach(player => {
+    const video = player.querySelector<HTMLVideoElement>("video")
+    const status = player.querySelector<HTMLElement>("[data-media-status]")
+    if (!video || !status) return
+    const hideStatus = () => { status.hidden = true }
+    const showStatus = () => {
+      status.textContent = "视频加载中…"
+      status.hidden = false
+    }
+    video.addEventListener("loadstart", showStatus)
+    video.addEventListener("waiting", showStatus)
+    video.addEventListener("stalled", () => { if (!video.paused) showStatus() })
+    for (const event of ["loadeddata", "canplay", "playing", "pause"]) video.addEventListener(event, hideStatus)
+    video.addEventListener("error", () => {
+      status.textContent = "视频暂时无法加载，请打开原文件"
+      status.hidden = false
+    })
+    video.addEventListener("play", () => {
+      players.forEach(other => {
+        const otherVideo = other.querySelector<HTMLVideoElement>("video")
+        if (otherVideo && otherVideo !== video && !otherVideo.paused) otherVideo.pause()
+      })
+    })
+  })
+</script>

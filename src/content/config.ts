@@ -39,7 +39,7 @@ const projects = defineCollection({
     videoCaption: z.string().optional(),
     period: z.string().optional(),
     eyebrow: z.string().optional(),
-    caseStudy: z.literal("medical-ip").optional(),
+    caseStudy: z.enum(["medical-ip", "short-video-planning"]).optional(),
   }),
 })
 

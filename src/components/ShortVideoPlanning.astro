@@ -1,0 +1,86 @@
+---
+import Container from "@components/Container.astro"
+import PlanningVideo from "@components/PlanningVideo.astro"
+import PlanningFrames from "@components/PlanningFrames.astro"
+import { planning as data, planningCases, originalStoryboard as plan, formatMetric } from "../data/short-video-planning"
+import "../styles/short-video-planning.css"
+---
+<div class="planning-page">
+  <Container size="lg">
+    <section id="planning-overview" class="planning-hero animate" aria-labelledby="planning-title">
+      <a class="planning-back" href="/projects">← 返回全部作品</a>
+      <div class="planning-topline"><p class="planning-label">{data.english}</p><span class="planning-label">CONTENT / STORY / PRODUCTION</span></div>
+      <p class="planning-index">01 / PROJECT OVERVIEW</p>
+      <h1 id="planning-title">从选题到成片：<br/><span>短视频内容策划实践</span></h1>
+      <p class="planning-subtitle">{data.subtitle}</p>
+      <figure class="planning-hero-cover"><img src="/covers/short-video-triptych.jpg" alt="三条真实成片的竖屏画面：生活误区、医生举牌与动作演示" width="960" height="540" fetchpriority="high" /><figcaption><span>THREE FORMATS, ONE CONTENT PRACTICE</span><span>真实成片帧 / 00:00 · 00:05 · 00:26</span></figcaption></figure>
+      <nav class="planning-case-nav" aria-label="精选短视频案例">
+        {planningCases.map(item => <a href={`#case-${item.slug}`}><span>CASE {item.id}</span><strong>{item.title}</strong><span aria-hidden="true">↘</span></a>)}
+      </nav>
+    </section>
+
+    <section id="planning-background" class="planning-section animate" aria-labelledby="planning-background-title">
+      <div class="planning-section-heading"><p class="planning-index">02 / BACKGROUND & ROLE</p><h2 id="planning-background-title">专业信息，<br/>需要被清楚地表达。</h2></div>
+      <div class="planning-background-grid">
+        <div class="planning-background-copy">{data.background.map(p => <p>{p}</p>)}<p class="planning-small">以下为参与项目的策划与执行实践，不将全部拍摄、剪辑或账号运营工作归为个人独立完成。</p></div>
+        <div class="planning-role"><p class="planning-label">MY ROLE / 我的角色</p><h3>{data.role}</h3><ul>{data.responsibilities.map((role,index) => <li><span>0{index + 1}</span>{role}</li>)}</ul></div>
+      </div>
+    </section>
+
+    <section id="planning-cases" class="planning-section" aria-labelledby="planning-cases-title">
+      <div class="planning-section-heading animate"><p class="planning-index">03 / SELECTED CASES</p><h2 id="planning-cases-title">不同形式，<br/>回应不同的内容需求。</h2><p>从高密度知识输出，到判断式分镜，再到动作演示。</p></div>
+      <p class="planning-data-note">作品数据由本人提供；统计截止时间与原始数据表未提供。各项数据按单条作品展示，不额外推导互动率或增长结论。</p>
+      {planningCases.map(item => (
+        <section id={`case-${item.slug}`} class="planning-case animate" aria-labelledby={`title-${item.slug}`}>
+          <div class="planning-case-heading"><p class="planning-label">CASE {item.id} / {item.english}</p><h3 id={`title-${item.slug}`}>《{item.title}》</h3><p>{item.positioning}</p></div>
+          <div class="planning-case-main">
+            <div class="planning-player-column"><PlanningVideo item={item} /></div>
+            <div class="planning-case-copy">
+              <dl class="planning-metrics" style={`--metric-count: ${item.metrics.length}`}>
+                {item.metrics.map(metric => <div><dt>{metric.label}</dt><dd>{formatMetric(metric.value)}<span>{metric.suffix}</span></dd></div>)}
+              </dl>
+              <p class="planning-label">PLANNING APPROACH / 策划思路</p>
+              <div class="planning-approach">{item.paragraphs.map(p => <p>{p}</p>)}</div>
+              {item.highlights.length > 0 && <ol class="planning-highlights">{item.highlights.map((highlight,index) => <li><span>0{index + 1}</span><div><h4>{highlight.title}</h4><p>{highlight.text}</p></div></li>)}</ol>}
+              {item.slug === "judgment" && <div class="planning-judgment-focus"><span aria-hidden="true">× <i>✓</i></span><div><h4>把文字选题拆成可拍摄的动作。</h4><p>固定机位、重复动作与判断符号，使每一项内容拥有统一的视觉结构。</p></div></div>}
+            </div>
+          </div>
+
+          {item.slug === "myths" && <div class="planning-breakdown">
+            <div class="planning-subheading"><div><p class="planning-label">CONTENT STRUCTURE / 内容拆解</p><h4>四个真实时点，读懂信息结构。</h4></div><span>从开场到收束</span></div>
+            <PlanningFrames frames={item.frames} variant="sequence" />
+            <p class="planning-small">时间为成片实际抽帧时点；画面说明聚焦选题与表达结构，不将视频字幕中的说法延伸为医学效果结论。</p>
+          </div>}
+
+          {item.slug === "judgment" && <div class="planning-breakdown">
+            <div class="planning-subheading"><div><p class="planning-label">STORYBOARD / 分镜策划展示</p><h4>先把镜头写清楚，再把内容拍出来。</h4></div></div>
+            <div class="planning-original-plan">
+              <div class="planning-plan-heading"><span class="planning-status">原始策划方案</span><p><strong>{plan.shots}</strong> 个镜头 · {plan.duration}<small>开场 + 8项判断 · {plan.shotDuration}</small></p></div>
+              <p>{plan.execution}</p><ol>{plan.sequence.map((step,index) => <li><span>0{index + 1}</span>{step}</li>)}</ol>
+              <div class="planning-plan-versions">{plan.versions.map(version => <div><h5>{version.title}</h5><p>{version.text}</p></div>)}</div>
+            </div>
+            <div class="planning-film-note"><span class="planning-status">实际成片 / 23.3秒</span><p>原始方案的“约25秒、9镜头”是策划预期。下面展示从上传成片提取的开场与8项判断参考帧，按实际时间标注；帧编号是展示索引，不代表对成片剪辑镜头数量的认定。</p></div>
+            <PlanningFrames frames={item.frames} variant="storyboard" />
+          </div>}
+
+          {item.slug === "movement" && <div class="planning-breakdown">
+            <div class="planning-subheading"><div><p class="planning-label">ACTION MODULES / 动作模块</p><h4>四组动作，四个独立内容单元。</h4></div><span>名称以成片字幕为准</span></div>
+            <PlanningFrames frames={item.frames} variant="actions" />
+            <p class="planning-small">原脚本中部分动作名称与实际字幕不同，已分别标注。四幅画面均为真实成片帧；动作展示用于说明内容设计，不额外添加健康建议或功效承诺。</p>
+          </div>}
+        </section>
+      ))}
+    </section>
+
+    <section id="planning-method" class="planning-section animate" aria-labelledby="planning-method-title">
+      <div class="planning-section-heading"><p class="planning-index">04 / WORKING METHOD</p><h2 id="planning-method-title">让创意成为<br/>可沟通、可执行的方案。</h2><p>从受众问题出发，把表达形式落实到脚本和镜头。</p></div>
+      <ol class="planning-workflow">{data.workflow.map((step,index) => <li><span>0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p></li>)}</ol>
+    </section>
+
+    <section id="planning-conclusion" class="planning-section planning-conclusion animate" aria-labelledby="planning-conclusion-title">
+      <p class="planning-index">05 / CONCLUSION</p><h2 id="planning-conclusion-title">策划的终点，<br/>是内容真正落地。</h2><p>{data.conclusion}</p>
+      <a class="planning-end-link" href="/projects">返回全部作品 <span aria-hidden="true">↗</span></a>
+      <div class="planning-end-meta"><span>HE YUXIANG / CONTENT PLANNING</span><span>INSIGHT → SCRIPT → STORYBOARD → PRODUCTION</span></div>
+    </section>
+  </Container>
+</div>

@@ -88,7 +88,7 @@ const projects = (await getCollection("projects"))
           <h2 class="font-semibold text-black dark:text-white">精选作品 <span class="font-normal text-xs opacity-60">/ SELECTED WORK</span></h2>
           <a href="/projects" class="shrink-0 text-sm underline underline-offset-4 hover:text-black dark:hover:text-white blend">全部作品 →</a>
         </div>
-        <p class="text-sm opacity-60 mb-5">医疗健康IP为真实项目案例；其他标注占位的项目，内容与素材待补充。</p>
+        <p class="text-sm opacity-60 mb-5">已收录医疗健康IP案例与 AI 二创 PV；其他标注占位的项目，内容与素材待补充。</p>
         <ul class="space-y-4">
           {projects.map(project => <li><ArrowCard entry={project} /></li>)}
         </ul>

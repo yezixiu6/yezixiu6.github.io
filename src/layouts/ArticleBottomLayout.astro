@@ -24,7 +24,7 @@ const next = items[(index + 1) % items.length]
     {entry.collection === "projects" && (
       <>
         {entry.data.placeholder && <p class="text-sm border-l-2 border-black/25 dark:border-white/40 pl-4">展示占位：此页用于演示作品详情结构，不代表真实项目、经历或成果。封面为示意图。</p>}
-        {entry.data.cover && <figure><img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="960" height="540" class="rounded-lg w-full" /><figcaption>{entry.data.placeholder ? "占位封面 · 真实作品画面待替换" : entry.data.coverAlt}</figcaption></figure>}
+        {entry.data.cover && !entry.data.videoUrl && <figure><img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="960" height="540" class="rounded-lg w-full" /><figcaption>{entry.data.placeholder ? "占位封面 · 真实作品画面待替换" : entry.data.coverAlt}</figcaption></figure>}
         {entry.data.videoUrl ? (
           <figure>
             <video controls playsinline preload="metadata" poster={entry.data.cover} aria-label={`${entry.data.title}视频`}>

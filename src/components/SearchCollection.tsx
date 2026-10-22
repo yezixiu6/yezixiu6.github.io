@@ -5,21 +5,21 @@ import ArrowCard from "@components/ArrowCard"
 import { cn } from "@lib/utils"
 import SearchBar from "@components/SearchBar"
 
+type SearchEntry = CollectionEntry<"blog"> | CollectionEntry<"projects">
+
 type Props = {
   entry_name: string
   tags: string[]
-  data: CollectionEntry<"blog">[] | CollectionEntry<'projects'>[]
+  data: SearchEntry[]
 }
 
 export default function SearchCollection({ entry_name, data, tags }: Props) {
-  const coerced = data.map((entry) => entry as CollectionEntry<'blog'>);
-
   const [query, setQuery] = createSignal("");
   const [filter, setFilter] = createSignal(new Set<string>())
-  const [collection, setCollection] = createSignal<CollectionEntry<'blog'>[]>(coerced)
+  const [collection, setCollection] = createSignal<SearchEntry[]>(data)
   const [descending, setDescending] = createSignal(false);
 
-  const fuse = new Fuse(coerced, {
+  const fuse = new Fuse(data, {
     keys: ["slug", "data.title", "data.summary", "data.tags"],
     includeMatches: true,
     minMatchCharLength: 2,
@@ -28,7 +28,7 @@ export default function SearchCollection({ entry_name, data, tags }: Props) {
 
   createEffect(() => {
     const filtered = (query().length < 2
-      ? coerced
+      ? data
       : fuse.search(query()).map((result) => result.item)
     ).filter((entry) =>
       Array.from(filter()).every((value) =>
@@ -39,9 +39,11 @@ export default function SearchCollection({ entry_name, data, tags }: Props) {
     );
     const ordered = descending() ? filtered.toReversed() : filtered
     // Pinned projects stay first in either date direction; filtering still applies.
-    setCollection(entry_name === "projects" ? ordered.toSorted((a, b) =>
-      ((b as CollectionEntry<"projects">).data.priority ?? 0) - ((a as CollectionEntry<"projects">).data.priority ?? 0)
-    ) : ordered)
+    setCollection(entry_name === "projects" ? ordered.toSorted((a, b) => {
+      const aPriority = a.collection === "projects" ? a.data.priority : 0
+      const bPriority = b.collection === "projects" ? b.data.priority : 0
+      return bPriority - aPriority
+    }) : ordered)
   })
 
   function toggleDescending() {

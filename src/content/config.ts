@@ -33,13 +33,14 @@ const projects = defineCollection({
     repoUrl: z.string().optional(),
     placeholder: z.boolean().default(false),
     featured: z.boolean().default(false),
+    priority: z.number().default(0),
     cover: z.string().optional(),
     coverAlt: z.string().optional(),
     videoUrl: z.string().optional(),
     videoCaption: z.string().optional(),
     period: z.string().optional(),
     eyebrow: z.string().optional(),
-    caseStudy: z.enum(["medical-ip", "short-video-planning"]).optional(),
+    caseStudy: z.enum(["medical-ip", "short-video-planning", "asian-games-photo"]).optional(),
   }),
 })
 

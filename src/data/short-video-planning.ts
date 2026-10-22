@@ -19,6 +19,10 @@ export interface PlanningCase {
   video: string
   poster: string
   metrics: { label: string; value: number; suffix?: string }[]
+  secondaryMetrics?: { label: string; value: string }[]
+  published?: string
+  metricNote?: string
+  reflection?: string
   paragraphs: string[]
   highlights: { title: string; text: string }[]
   frames: PlanningFrame[]
@@ -36,7 +40,7 @@ export const planning = {
   role: "实习编导 / 内容策划",
   background: [
     "在医疗健康内容MCN实习期间，参与医生个人IP短视频内容制作，围绕抖音平台的内容特点及目标受众需求，开展参考视频分析、选题策划、脚本撰写、拍摄设计和现场沟通等工作。",
-    "项目主要面向女性健康科普领域，需要在专业信息表达、受众理解成本与平台传播形式之间取得平衡。",
+    "项目涵盖就医沟通与女性健康科普，需要在专业信息表达、受众理解成本与平台传播形式之间取得平衡。",
   ],
   responsibilities: ["短视频选题分析", "同类热门内容与参考视频拆解", "口播脚本撰写及优化", "视频结构与镜头设计", "拍摄沟通与现场执行", "成片效果复盘"],
   workflow: [
@@ -52,7 +56,36 @@ export const planning = {
 
 export const planningCases: PlanningCase[] = [
   {
-    id: "01", slug: "myths", title: "生活中的10个误区", english: "MYTH-BUSTING CONTENT",
+    id: "01", slug: "doctor-subtext", title: "医生的黑话暗示，大家一定要记住", english: "SCENARIO & CONTRAST",
+    positioning: "沈炜亮医生 / 就医沟通选题 / 对照式脚本 / 举牌表达",
+    sourceFile: "video_医生的黑话暗示，大家一定要记住 ..._top_0_2.mp4", duration: 54.310998,
+    video: "/media/short-video/doctor-subtext.mp4", poster: "/covers/short-video/doctor-subtext-00.jpg",
+    published: "2026 年 10 月 20 日 18:00",
+    metrics: [{ label: "播放量", value: 3.6, suffix: "万" }, { label: "点赞量", value: 1214 }, { label: "分享量", value: 222 }],
+    secondaryMetrics: [
+      { label: "评论", value: "73" }, { label: "收藏", value: "181" },
+      { label: "完播率", value: "13.19%" }, { label: "2秒跳出率", value: "41.02%" }, { label: "吸粉量", value: "8" },
+    ],
+    metricNote: "播放量保留后台显示的“3.6万”精度；统计截止时间未提供。",
+    paragraphs: [
+      "从受众对就医沟通的疑问切入，以“医生说话的言外之意，你听懂了吗？”作为开场提问，将抽象的沟通话题转化为四组“医生原话—情景化解读”的对照内容，建立清晰的观看预期。",
+      "成片约54.3秒，采用医生正面坐姿、固定景别与举牌动作承载内容。脚本预留开场文字与声音的后期配合，画面中的原话和解读依次切换，以重复结构降低理解成本，结尾通过留言邀请完成收束。",
+    ],
+    highlights: [
+      { title: "以沟通疑问建立选题", text: "抓住“医生这句话到底是什么意思”的好奇心，用直接提问交代视频主题，把日常就医场景转化为内容切入点。" },
+      { title: "用四组对照组织脚本", text: "按“原话—解读”逐项推进，让每个信息单元具有相同的阅读顺序，体现脚本拆分、重点提炼与节奏组织能力。" },
+      { title: "让脚本对应画面与后期", text: "将内容安排落实到举牌、换页、重点字幕及声音配合，保持人物主体与信息区域稳定，便于拍摄沟通和后期执行。" },
+    ],
+    reflection: "这条作品在当前三个案例中播放量最高，获得1,214次点赞与222次分享；同时，13.19%的完播率和41.02%的2秒跳出率提示后续可测试更短的开场与更紧凑的对照节奏。脚本中的“言外之意”属于情景化表达，后续应结合具体语境复核，避免将其写成适用于所有诊疗场景的确定结论。",
+    frames: [
+      frame("doctor-subtext", 0, "提问式开场", "蓝黄主题字幕突出“言外之意”与“你听懂了吗”，医生正面出镜，直接建立观看预期。"),
+      frame("doctor-subtext", 4, "先呈现医生原话", "第一组“暗语”以醒目字幕呈现，举牌画面为文字保留稳定的信息区域。"),
+      frame("doctor-subtext", 12, "再给出情景化解读", "同一景别切换到“意思是”，使原话与解读形成连续的对照阅读。"),
+      frame("doctor-subtext", 53, "留言邀请收束", "结尾展示“留下一句谢谢”的互动文案，将内容结束与评论邀请连接。"),
+    ],
+  },
+  {
+    id: "02", slug: "myths", title: "生活中的10个误区", english: "MYTH-BUSTING CONTENT",
     positioning: "反常识知识科普 / 高频信息输出",
     sourceFile: "9.23王丽惠十大误区(1).mp4", duration: 67.383991,
     video: "/media/short-video/myths.mp4", poster: "/covers/short-video/myths-00.jpg",
@@ -71,30 +104,6 @@ export const planningCases: PlanningCase[] = [
       frame("myths", 3, "认知反差", "进入隔夜茶相关话题；主题、口播字幕与配图形成信息层级。"),
       frame("myths", 8, "连续知识输出", "切换至味精相关话题，延续简短字幕与配图的表达结构。"),
       frame("myths", 66, "内容收束", "结尾以“您记住了吗”提问收束，提醒观众回顾知识点。"),
-    ],
-  },
-  {
-    id: "02", slug: "judgment", title: "进入更年期，这8件事你做对没？", english: "STORYBOARD & PRODUCTION",
-    positioning: "视觉化科普 / 分镜设计 / 拍摄执行",
-    sourceFile: "7月31日王丽慧举牌.mp4", duration: 23.289002,
-    video: "/media/short-video/judgment.mp4", poster: "/covers/short-video/judgment-05.jpg",
-    metrics: [{ label: "播放量", value: 6907 }, { label: "点赞量", value: 49 }],
-    paragraphs: [
-      "针对更年期女性常见的健康认知问题，将专业科普信息整理成简洁、直接、易于理解的判断式内容。",
-      "传统医生口播容易出现信息密集、视觉变化不足等问题，因此该策划尝试通过医生动作、判断符号与画面节奏增强内容可看性。",
-      "实际成片约23.3秒，可见医院候诊/走廊环境、医生入画与举牌、红色叉号和绿色对号，以及逐项字幕和配图；原方案中的逐项镜头时长、离画和空镜安排不能直接等同于实际剪辑。",
-    ],
-    highlights: [],
-    frames: [
-      frame("judgment", 0, "主题与空场", "医院座椅与主题字幕先出现，医生尚未进入画面。"),
-      frame("judgment", 1, "判断01 / 举牌反馈", "首项问题出现，医生举起红色叉号牌，搭配内容配图。"),
-      frame("judgment", 5, "判断02 / 强化结果", "红色叉号与判断文字同框，补充字幕位于下方。"),
-      frame("judgment", 7, "判断03 / 颜色变化", "绿色对号牌承接第三项内容，延续相近景别。"),
-      frame("judgment", 9, "判断04 / 配图辅助", "第四项内容采用绿色举牌、标题和配图的组合。"),
-      frame("judgment", 13, "判断05 / 重复结构", "第五项字幕与配图出现，举牌结构保持一致。"),
-      frame("judgment", 17, "判断06 / 对比反馈", "第六项以红色叉号给出判断，形成视觉对比。"),
-      frame("judgment", 19, "判断07 / 字幕分层", "绿色对号与补充字幕配合，分层呈现第七项信息。"),
-      frame("judgment", 23, "判断08 / 成片结尾", "第八项及补充字幕仍在画面中，成片接近结束。"),
     ],
   },
   {
@@ -120,18 +129,6 @@ export const planningCases: PlanningCase[] = [
     ],
   },
 ]
-
-export const originalStoryboard = {
-  shots: 9, duration: "约25秒", shotDuration: "约2—4秒 / 内容镜头",
-  sequence: ["主题引入", "提出常见问题", "医生入画、站定与举牌", "颜色、字幕及配图强化", "医生离画 / 空镜转场"],
-  execution: "原始方案以医院走廊为环境，采用固定机位、统一景别，规划医生走入与站定、举牌动作、空镜转场、后期配图及转场节奏。",
-  versions: [
-    { title: "定稿版", text: "完整内容结构" },
-    { title: "医生版", text: "现场动作与台词提示" },
-    { title: "拍摄版", text: "机位、景别、动作及道具" },
-    { title: "剪辑版", text: "字幕、转场、音效及节奏要求" },
-  ],
-}
 
 export const timestamp = (seconds: number) => `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`
 export const formatMetric = (value: number) => value.toLocaleString("zh-CN", { maximumFractionDigits: 1 })

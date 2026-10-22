@@ -342,6 +342,25 @@
   margin-top: 16px;
 }
 
+.planning-secondary-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--plan-line);
+}
+.planning-secondary-metrics dt { font-size: 11px; color: var(--plan-muted); }
+.planning-secondary-metrics dd { font-size: 22px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.planning-publication { margin: 14px 0 26px; font-size: 11px; }
+.planning-reflection { margin-top: 20px; padding: 22px; background: var(--plan-surface); border: 1px solid var(--plan-line); border-radius: 4px; }
+.planning-reflection h4 { font-size: 15px; font-weight: 700; }
+.planning-reflection p { margin-top: 10px; font-size: 13px; color: var(--plan-muted); line-height: 1.9; }
+@media (max-width: 767px) {
+  #case-doctor-subtext .planning-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #case-doctor-subtext .planning-metrics > div:first-child { grid-column: 1 / -1; }
+  .planning-secondary-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 .planning-approach p {
   font-size: 14px;
   line-height: 2;

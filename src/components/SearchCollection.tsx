@@ -37,7 +37,11 @@ export default function SearchCollection({ entry_name, data, tags }: Props) {
         )
       )
     );
-    setCollection(descending() ? filtered.toReversed() : filtered)
+    const ordered = descending() ? filtered.toReversed() : filtered
+    // Pinned projects stay first in either date direction; filtering still applies.
+    setCollection(entry_name === "projects" ? ordered.toSorted((a, b) =>
+      ((b as CollectionEntry<"projects">).data.priority ?? 0) - ((a as CollectionEntry<"projects">).data.priority ?? 0)
+    ) : ordered)
   })
 
   function toggleDescending() {

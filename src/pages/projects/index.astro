@@ -5,11 +5,12 @@ import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
 import SearchCollection from "@components/SearchCollection";
 import { PROJECTS } from "@consts";
+import { compareProjects } from "@lib/projects";
 
 
 const projects = (await getCollection("projects"))
   .filter((project) => !project.data.draft)
-  .sort((a, b) => Number(a.data.placeholder) - Number(b.data.placeholder) || b.data.date.getTime() - a.data.date.getTime());
+  .sort(compareProjects);
 
 const tags = [
   ...new Set(projects.flatMap((project) => project.data.tags)),
@@ -28,7 +29,7 @@ const estimated_initial_size =
       <div class="mt-1">
         {PROJECTS.DESCRIPTION}
       </div>
-      <p class="mt-3 text-sm opacity-60">已收录医疗健康IP案例与 AI 二创 PV；其他标注占位的项目，内容与素材待补充。</p>
+      <p class="mt-3 text-sm opacity-60">已收录亚运人物图文、短视频策划、医疗健康 IP 运营与 AI 二创 PV。个人创作项目的真实内容待补充。</p>
     </div>
   </TopLayout>
   <BottomLayout>

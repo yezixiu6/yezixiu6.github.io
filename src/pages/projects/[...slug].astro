@@ -7,6 +7,7 @@ import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
 import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
 import MedicalIPCase from "@components/MedicalIPCase.astro"
 import ShortVideoPlanning from "@components/ShortVideoPlanning.astro"
+import AsianGamesPhoto from "@components/AsianGamesPhoto.astro"
 
 // Create the static projects pages
 export async function getStaticPaths() {
@@ -24,7 +25,7 @@ const { title, summary } = project.data
 ---
 
 <PageLayout title={title} description={summary}>
-  {project.data.caseStudy === "medical-ip" ? <MedicalIPCase /> : project.data.caseStudy === "short-video-planning" ? <ShortVideoPlanning /> : <>
+  {project.data.caseStudy === "asian-games-photo" ? <AsianGamesPhoto /> : project.data.caseStudy === "medical-ip" ? <MedicalIPCase /> : project.data.caseStudy === "short-video-planning" ? <ShortVideoPlanning /> : <>
   <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={project} />

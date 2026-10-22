@@ -1,0 +1,101 @@
+---
+import { asianGames as data, asianGamesPhotos as photos } from "../data/asian-games"
+import "../styles/asian-games.css"
+---
+
+<div class="asian-case" data-ag-case>
+  <div class="ag-shell">
+    <section class="ag-hero" aria-labelledby="ag-title">
+      <div class="ag-hero-copy">
+        <a class="ag-back" href="/projects">← 全部作品</a>
+        <p class="ag-eyebrow"><span></span> PHOTO STORY / 人物故事图文策划</p>
+        <h1 id="ag-title">亮哥的<br /><em>亚运之旅。</em></h1>
+        <p class="ag-hero-intro">热闹的赛场，<br />也有属于自己的责任。</p>
+        <p class="ag-hero-summary">{data.summary}</p>
+        <div class="ag-tags"><span>图文策划</span><span>文案撰写</span><span>人物叙事</span></div>
+        <a class="ag-read" href="#ag-story">阅读图文作品 <span aria-hidden="true">↘</span></a>
+      </div>
+      <figure class="ag-hero-image">
+        <img src={photos[2].src} width={photos[2].width} height={photos[2].height} alt="主人公在开幕式现场手持五星红旗" fetchpriority="high" />
+        <figcaption><span>一面国旗，一段赛场记忆。</span><span>ASIAN GAMES / PHOTO ESSAY</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="ag-metrics" aria-label="作品主要数据">
+      {data.metrics.map(metric => <div><p class="ag-number">{metric.value}<small>{metric.unit}</small></p><p class="ag-metric-label">{metric.label}</p></div>)}
+    </section>
+    <p class="ag-source-note">数据来源：作品后台统计。统计截止时间未提供；播放量按后台显示精度呈现。</p>
+
+    <nav class="ag-section-nav" aria-label="案例章节"><a href="#ag-overview">项目概览</a><a href="#ag-method">创作方法</a><a href="#ag-story">图文作品</a><a href="#ag-reflection">数据与复盘</a></nav>
+
+    <section id="ag-overview" class="ag-section ag-overview" aria-labelledby="ag-overview-title">
+      <div><p class="ag-section-index">01 / THE PROJECT</p><h2 id="ag-overview-title">从现场照片，<br />到一个人的故事。</h2></div>
+      <div class="ag-overview-copy"><p>{data.introduction}</p><p>{data.context}</p>
+        <dl class="ag-project-info"><div><dt>项目类型</dt><dd>人物故事类图文</dd></div><div><dt>我的职责</dt><dd>图文策划 · 选图编排 · 文案整理</dd></div><div><dt>发布时间</dt><dd><time datetime="2026-09-30T18:09:00+08:00">{data.published}</time></dd></div><div><dt>作品形式</dt><dd>8 张图片 + 人物第一人称文案</dd></div></dl>
+      </div>
+    </section>
+
+    <section id="ag-method" class="ag-section" aria-labelledby="ag-method-title">
+      <div class="ag-section-heading"><div><p class="ag-section-index">02 / CREATIVE APPROACH</p><h2 id="ag-method-title">让画面吸引关注，<br />让文字补充人物。</h2></div><p>以“热闹的赛场，也有自己的责任”为叙事主线，连接赛事现场、职业身份和个人感受。</p></div>
+      <div class="ag-steps">{data.steps.map((step, index) => <div><span class="ag-step-number">0{index + 1}</span><p class="ag-step-caption">{step.caption}</p><h3>{step.title}</h3><p>{step.text}</p></div>)}</div>
+      <div class="ag-role-heading"><h3>我在项目中做了什么</h3><span>MY CONTRIBUTION</span></div>
+      <div class="ag-roles">{data.roles.map((role, index) => <div><span>0{index + 1}</span><div><h4>{role.title}</h4><p>{role.text}</p></div></div>)}</div>
+    </section>
+
+    <section id="ag-story" class="ag-section" aria-labelledby="ag-story-title">
+      <div class="ag-section-heading"><div><p class="ag-section-index">03 / THE PHOTO STORY</p><h2 id="ag-story-title">沿着照片，<br />重温这趟旅程。</h2></div><p>按作品图序收录八张图片。点击图片可放大浏览。</p></div>
+      <div class="ag-published-copy"><span class="ag-copy-mark" aria-hidden="true">“</span><div><p class="ag-copy-label">作品文案 / 主人公第一人称</p><h3>亮哥的亚运之旅。<span>#亚运会</span></h3>{data.copy.map(paragraph => <p>{paragraph}</p>)}</div></div>
+      <div class="ag-gallery">{photos.map((photo, index) => <figure class="ag-photo-card"><button type="button" class="ag-photo-button" data-ag-photo data-src={photo.src} data-title={photo.title} data-caption={photo.caption} aria-label={`放大第 ${index + 1} 张：${photo.title}`}><span class="ag-photo-matte"><img src={photo.src} alt={photo.caption} width={photo.width} height={photo.height} loading="lazy" decoding="async" /></span><span class="ag-photo-open" aria-hidden="true">↗</span></button><figcaption><span class="ag-photo-number">{String(index + 1).padStart(2, "0")} / 08</span><div><h3>{photo.title}</h3><p>{photo.caption}</p></div></figcaption></figure>)}</div>
+    </section>
+
+    <section id="ag-reflection" class="ag-section" aria-labelledby="ag-reflection-title">
+      <div class="ag-section-heading"><div><p class="ag-section-index">04 / RESULTS & REFLECTION</p><h2 id="ag-reflection-title">被看见之后，<br />继续理解阅读。</h2></div><p>作品获得 30.7 万播放，带来 107 个新增关注。结合互动与浏览表现，寻找下一次内容优化的方向。</p></div>
+      <dl class="ag-secondary-metrics">{data.secondaryMetrics.map(metric => <div><dt>{metric.label}</dt><dd>{metric.value}</dd></div>)}</dl>
+      <div class="ag-reflection"><span class="ag-reflection-symbol" aria-hidden="true">↗</span><div><p class="ag-section-index">NEXT / 下一次创作</p><h3>把故事看点，放进前两张。</h3><p>{data.reflection}</p><span class="ag-reflection-note">后续优化方向 · 尚未实施验证</span></div></div>
+      <p class="ag-source-note">以上为单条作品后台显示的数据。吸粉量为该作品归因数据，不等同于账号净增粉丝；未据此推导曝光量或转化率。</p>
+    </section>
+    <div class="ag-end"><a href="/projects">← 返回作品集</a><span>让经历成为故事，让想法成为作品。</span><a href="/contact">联系我 ↗</a></div>
+  </div>
+
+  <dialog class="ag-dialog" aria-labelledby="ag-dialog-title">
+    <div class="ag-dialog-top"><p id="ag-dialog-title">图文作品</p><button type="button" data-ag-close aria-label="关闭图片浏览">关闭 ×</button></div>
+    <img class="ag-dialog-image" alt="" />
+    <div class="ag-dialog-bottom"><button type="button" data-ag-prev aria-label="上一张图片">←</button><p data-ag-dialog-caption aria-live="polite"></p><button type="button" data-ag-next aria-label="下一张图片">→</button></div>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-ag-case]").forEach(root => {
+    const dialog = root.querySelector<HTMLDialogElement>(".ag-dialog")
+    const image = root.querySelector<HTMLImageElement>(".ag-dialog-image")
+    const caption = root.querySelector<HTMLElement>("[data-ag-dialog-caption]")
+    const title = root.querySelector<HTMLElement>("#ag-dialog-title")
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-ag-photo]"))
+    if (!dialog || !image || !caption || !title) return
+    let current = 0
+    let previousOverflow = ""
+    const show = (index: number) => {
+      current = (index + buttons.length) % buttons.length
+      const item = buttons[current].dataset
+      image.src = item.src ?? ""
+      image.alt = item.caption ?? ""
+      title.textContent = item.title ?? "图文作品"
+      caption.textContent = `${current + 1} / ${buttons.length} · ${item.caption ?? ""}`
+    }
+    buttons.forEach((button, index) => button.addEventListener("click", () => {
+      show(index)
+      previousOverflow = document.documentElement.style.overflow
+      document.documentElement.style.overflow = "hidden"
+      dialog.showModal()
+    }))
+    root.querySelector("[data-ag-close]")?.addEventListener("click", () => dialog.close())
+    root.querySelector("[data-ag-prev]")?.addEventListener("click", () => show(current - 1))
+    root.querySelector("[data-ag-next]")?.addEventListener("click", () => show(current + 1))
+    dialog.addEventListener("keydown", event => {
+      if (event.key === "ArrowLeft") { event.preventDefault(); show(current - 1) }
+      if (event.key === "ArrowRight") { event.preventDefault(); show(current + 1) }
+    })
+    dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close() })
+    dialog.addEventListener("close", () => { document.documentElement.style.overflow = previousOverflow })
+  })
+</script>

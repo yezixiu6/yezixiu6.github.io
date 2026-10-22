@@ -11,7 +11,16 @@ export default function ArrowCard({ entry, pill }: Props) {
     <a href={`/${entry.collection}/${entry.slug}`} class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out">
       <div class="w-full min-w-0 group-hover:text-black group-hover:dark:text-white blend">
         {entry.collection === "projects" && entry.data.cover && (
-          <img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="960" height="540" loading="lazy" class="w-full aspect-video object-cover rounded mb-4 border border-black/10 dark:border-white/10" />
+          entry.data.caseStudy === "asian-games-photo" ? (
+            <div class="flex aspect-video overflow-hidden rounded mb-4 bg-[#191313] text-white">
+              <img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="1440" height="1920" loading="lazy" class="w-1/2 h-full object-cover object-[center_35%]" />
+              <div class="w-1/2 flex flex-col justify-center p-4 sm:p-5 gap-2">
+                <span class="text-[9px] sm:text-xs tracking-widest text-white/60">PHOTO STORY / 01</span>
+                <span class="text-base sm:text-2xl font-bold leading-tight">亮哥的<br />亚运之旅。</span>
+                <span class="text-xs sm:text-sm text-white/75">30.7 万播放 · +107 关注</span>
+              </div>
+            </div>
+          ) : <img src={entry.data.cover} alt={entry.data.coverAlt ?? entry.data.title} width="960" height="540" loading="lazy" class="w-full aspect-video object-cover rounded mb-4 border border-black/10 dark:border-white/10" />
         )}
         <div class="flex flex-wrap items-center gap-2">
           {pill &&
@@ -22,6 +31,7 @@ export default function ArrowCard({ entry, pill }: Props) {
           <div class="text-sm uppercase">
             {entry.collection === "projects" ? (entry.data.placeholder ? "占位项目 / SAMPLE" : entry.data.period ?? formatDate(entry.data.date)) : formatDate(entry.data.date)}
           </div>
+          {entry.collection === "projects" && entry.data.priority > 0 && <span class="text-xs px-2 py-0.5 rounded border border-black/15 dark:border-white/25">置顶</span>}
           {entry.collection === "projects" && entry.data.eyebrow && <span class="text-xs tracking-widest opacity-60">{entry.data.eyebrow}</span>}
         </div>
         <div class="font-semibold mt-3 text-black dark:text-white line-clamp-2">
